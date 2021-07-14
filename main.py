@@ -33,20 +33,27 @@ class Player(arcade.Sprite):
 
         self.left_textures = [arcade.load_texture(f'assets/Raticus{str(i)}.png') for i in range(1, 16)]
         self.right_textures = [arcade.load_texture(f'assets/Raticus{str(i)}.png', flipped_horizontally=True) for i in range(1, 16)]
-
+        self.face_right = True
         # By default, face right.
         self.texture = texture
 
     def update(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
-
+        
         # Figure out if we should face left or right
         if self.change_x < 0:
-            self.texture = self.left_textures[randrange(1, 15)]
-        elif self.change_x >= 0:
-            self.texture = self.right_textures[randrange(1, 15)]
-        
+            self.texture = self.left_textures[0]
+            self.face_right = False
+        elif self.change_x > 0:
+            self.texture = self.right_textures[0]
+            self.face_right = True
+        else:
+            if self.face_right:
+                self.texture = self.right_textures[randrange(1, 15)]
+            else:
+                self.texture = self.left_textures[randrange(1, 15)]
+
         # if self.change_x + self.change_y == 0:
         #    self.texture = self.textures[(randrange(2))] 
         # Check for out-of-bounds
