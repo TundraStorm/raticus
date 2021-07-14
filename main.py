@@ -1,5 +1,7 @@
 
 import arcade
+from random import randrange
+
 
 SPRITE_SCALING = 0.25
 
@@ -26,6 +28,11 @@ class Player(arcade.Sprite):
         texture = arcade.load_texture(image,
                                       flipped_horizontally=True)
         self.textures.append(texture)
+        texture = arcade.load_texture('assets/Raticus1.png')
+        self.textures.append(texture)
+
+        self.left_textures = [arcade.load_texture(f'assets/Raticus{str(i)}.png') for i in range(1, 16)]
+        self.right_textures = [arcade.load_texture(f'assets/Raticus{str(i)}.png', flipped_horizontally=True) for i in range(1, 16)]
 
         # By default, face right.
         self.texture = texture
@@ -36,10 +43,12 @@ class Player(arcade.Sprite):
 
         # Figure out if we should face left or right
         if self.change_x < 0:
-            self.texture = self.textures[TEXTURE_LEFT]
-        elif self.change_x > 0:
-            self.texture = self.textures[TEXTURE_RIGHT]
-
+            self.texture = self.left_textures[randrange(1, 15)]
+        elif self.change_x >= 0:
+            self.texture = self.right_textures[randrange(1, 15)]
+        
+        # if self.change_x + self.change_y == 0:
+        #    self.texture = self.textures[(randrange(2))] 
         # Check for out-of-bounds
         if self.left < 0:
             self.left = 0
@@ -81,7 +90,7 @@ class MyGame(arcade.Window):
         self.player_list = arcade.SpriteList()
 
         # Set up the player
-        self.player_sprite = Player("assets/Raticus012.png", SPRITE_SCALING)
+        self.player_sprite = Player("assets/Raticus12.png", SPRITE_SCALING)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
@@ -124,10 +133,12 @@ class MyGame(arcade.Window):
         # This doesn't work well if multiple keys are pressed.
         # Use 'better move by keyboard' example if you need to
         # handle this.
+        
         if key == arcade.key.UP or key == arcade.key.DOWN:
             self.player_sprite.change_y = -2.5
         elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
             self.player_sprite.change_x = 0
+        
 
 
 def main():
