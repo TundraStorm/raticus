@@ -16,7 +16,7 @@ class Player(arcade.Sprite):
         texture = arcade.load_texture(image,
                                       flipped_horizontally=True)
         self.textures.append(texture)
-        texture = arcade.load_texture('assets/Raticus1.png')
+        texture = arcade.load_texture('assets/character/idle/idle001.png')
         self.textures.append(texture)
 
         self.left_textures = [arcade.load_texture(file) for file in glob.glob('assets/character/idle/*.png', recursive=True)]
